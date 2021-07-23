@@ -33,21 +33,27 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="field">
-                            <p class="control has-icons-left">
-                                <input class="input is-medium" type="password" placeholder="Password" v-model="password" />
+                        <div class="field has-addons">
+                            <div class="control has-icons-left">
+                                <input class="input is-medium" :type="password_visibility" placeholder="Password" v-model="password" />
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
-                            </p>
+                            </div>
+                            <div class="control">
+                                <a title="make password visible" class="button is-warning is-medium" @click="visible(password)"> <i class="fas fa-eye-slash"></i> </a>
+                            </div>
                         </div>
-                        <div class="field">
-                            <p class="control has-icons-left">
-                                <input class="input is-medium" type="password" placeholder="Confirm Password" v-model="password_confirm" />
+                        <div class="field has-addons">
+                            <div class="control has-icons-left">
+                                <input class="input is-medium" :type="password_conf_visibility" placeholder="Password" v-model="password_confirm" />
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
-                            </p>
+                            </div>
+                            <div class="control">
+                                <a title="make password visible" class="button is-warning is-medium" @click="visible(password_confirm)"> <i class="fas fa-eye-slash"></i> </a>
+                            </div>
                         </div>
                         <div class="field">
                             <p class="control">
@@ -77,6 +83,8 @@ export default {
             email: "",
             password: "",
             password_confirm: "",
+
+            visibility = 'password',
             loading: false,
         };
     },
@@ -116,6 +124,9 @@ export default {
                 indefinite: true
             })
         },
+        visible() {
+            this.visibility === 'text' ? this.visibility === 'password' : this.visibility === 'text'
+        }
     },
 };
 </script>
