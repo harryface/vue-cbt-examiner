@@ -1,35 +1,24 @@
 <template>
-    <div class="sidebar-page">
-        <section class="sidebar-layout">
-            <b-sidebar position="static" mobile="reduce" expand-on-hover="true" reduce="false" type="is-light" open>
-                <div class="p-1">
-                    <div class="block">
-                        <img src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png" alt="Lightweight UI components for Vue.js based on Bulma" />
-                    </div>
-                    <b-menu class="is-custom-mobile">
-                        <b-menu-list label="Menu">
-                            <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-                            <b-menu-item active expanded icon="settings" label="Administrator">
-                                <b-menu-item icon="account" label="Users"></b-menu-item>
-                                <b-menu-item icon="cellphone-link" label="Devices"></b-menu-item>
-                                <b-menu-item icon="cash-multiple" label="Payments" disabled></b-menu-item>
-                            </b-menu-item>
-                            <b-menu-item icon="account" label="My Account">
-                                <b-menu-item icon="account-box" label="Account data"></b-menu-item>
-                                <b-menu-item icon="home-account" label="Addresses"></b-menu-item>
-                            </b-menu-item>
-                        </b-menu-list>
-                        <b-menu-list>
-                            <b-menu-item label="Expo" icon="link"></b-menu-item>
-                        </b-menu-list>
-                        <b-menu-list label="Actions">
-                            <b-menu-item icon="logout" @click="logout" label="Logout"></b-menu-item>
-                        </b-menu-list>
-                    </b-menu>
-                </div>
-            </b-sidebar>
-        </section>
-    </div>
+    <aside class="column nav is-2-mobile is-narrow pr-6" @mouseover="hover=true" @mouseleave="hover=false">
+        <div class="menu" :class="{'expanded': hover}">
+            <ul class="menu-list">
+                <li> <a href="#" class="menu-item"><i class="fas fa-tachometer-alt fa-3x"></i><span
+                            class="nav-text">Dashboard</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-shopping-cart fa-3x"></i><span
+                            class="nav-text">Products</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-layer-group fa-3x"></i><span
+                            class="nav-text">Forms</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-users fa-3x"></i><span
+                            class="nav-text">Members</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-history fa-3x"></i><span
+                            class="nav-text">History</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-user fa-3x"></i><span
+                            class="nav-text">Profile</span></a> </li>
+                <li> <a href="#" class="menu-item"><i class="fas fa-cog fa-3x"></i><span
+                            class="nav-text">Settings</span></a> </li>
+            </ul>
+        </div>
+    </aside>
 </template>
 
 <script>
@@ -37,6 +26,11 @@ import axios from "axios"
 
 export default {
     name: "Sidebar",
+    data() {
+        return {
+            hover: false,
+        }
+    },
     methods: {
         async logout() {
             await axios.post('logout');
@@ -47,90 +41,111 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.p-1 {
-    padding: 1em;
-}
-.sidebar-page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100%;
-    // min-height: 100vh;
-    .sidebar-layout {
-        display: flex;
-        flex-direction: row;
-        min-height: 100%;
-        // min-height: 100vh;
+<style scoped>
+    @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
+    .fa-3x {
+        font-size: 3em;
     }
-}
-@media screen and (max-width: 1023px) {
-    .b-sidebar {
-        .sidebar-content {
-            &.is-mini-mobile {
-                &:not(.is-mini-expand),
-                &.is-mini-expand:not(:hover):not(.is-mini-delayed) {
-                    .menu-list {
-                        li {
-                            a {
-                                span:nth-child(2) {
-                                    display: none;
-                                }
-                            }
-                            ul {
-                                padding-left: 0;
-                                li {
-                                    a {
-                                        display: inline-block;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .menu-label:not(:last-child) {
-                        margin-bottom: 0;
-                    }
-                }
-            }
-        }
+
+    .fas {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 36px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
     }
-}
-@media screen and (min-width: 1024px) {
-    .b-sidebar {
-        .sidebar-content {
-            &.is-mini {
-                &:not(.is-mini-expand),
-                &.is-mini-expand:not(:hover):not(.is-mini-delayed) {
-                    .menu-list {
-                        li {
-                            a {
-                                span:nth-child(2) {
-                                    display: none;
-                                }
-                            }
-                            ul {
-                                padding-left: 0;
-                                li {
-                                    a {
-                                        display: inline-block;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .menu-label:not(:last-child) {
-                        margin-bottom: 0;
-                    }
-                }
-            }
-        }
+
+
+    .menu.expanded {
+        width: 250px;
+        overflow: visible;
     }
-}
-.is-mini-expand {
-    .menu-list a {
-        white-space: nowrap;
+
+
+    .menu li:hover>a,
+    .nav.menu li.active>a,
+    .dropdown-menu>li>a:hover,
+    .dropdown-menu>li>a:focus,
+    .dropdown-menu>.active>a,
+    .dropdown-menu>.active>a:hover,
+    .dropdown-menu>.active>a:focus,
+    .no-touch .dashboard-page nav.dashboard-menu ul li:hover a,
+    .dashboard-page nav.dashboard-menu ul li.active a {
+        color: #fff;
+        background-color: #5fa2db;
+    }
+
+    .menu {
+        background: #212121;
+        border-right: 1px solid #e5e5e5;
+        position: absolute;
+        top: 58px;
+        bottom: 0;
+        height: 100%;
+        left: 0;
+        width: 60px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        -webkit-transition: width .05s linear;
+        transition: width .05s linear;
+        z-index: 1000;
     }
-}
+
+    .menu>ul {
+        margin: 7px 0;
+    }
+
+    .menu li {
+        position: relative;
+        display: block;
+        width: 250px;
+    }
+
+    .menu li>a {
+        position: relative;
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0;
+        color: #999;
+        font-family: arial;
+        font-size: 14px;
+        text-decoration: none;
+        -webkit-transition: all .1s linear;
+        transition: all .1s linear;
+
+    }
+
+    .menu .nav-text {
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+        width: 190px;
+        font-family: 'Titillium Web', sans-serif;
+    }
+
+    
+
+    .nav {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .nav ul,
+    .nav li {
+        outline: 0;
+        margin: 0;
+        padding-bottom: 5px;
+    }
+
+    @font-face {
+        font-family: 'Titillium Web';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+    }
 </style>

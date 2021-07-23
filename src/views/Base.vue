@@ -2,14 +2,18 @@
     <div>
         <Nav :authenticated="authenticated" :user="user" />
 
-        <Sidebar />
 
-        <section class="section">
-            <h1 class="title">Section</h1>
-            <h2 class="subtitle">A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading.</h2>
+        <section class="hero is-fullheight">
+        <div class="columns is-mobile">
 
-            <router-view />
-        </section>
+            <Sidebar />
+
+            <main class="column pl-4">
+                <router-view />
+            </main>
+
+        </div>
+    </section>
 
         <!-- We will put a router-view so that the children would export it, more like block content in jinja -->
         
