@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
 import axios from 'axios'
 
 import App from './App.vue'
@@ -12,7 +13,9 @@ axios.defaults.withCredentials = true;
 
 Vue.config.productionTip = false
 
-Vue.use(Buefy)
+Vue.use(Buefy, {
+    defaultIconPack: 'fas'
+})
 
 new Vue({
   router,

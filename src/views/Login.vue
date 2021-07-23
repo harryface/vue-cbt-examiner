@@ -1,26 +1,50 @@
 <template>
-    <main class="form-signin">
-        <form @submit.prevent="login">
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <div class="centerall">
+        <div class="columns">
+            <div class="column">
+                <div class="box">
+                    <form @submit.prevent="login">
+                        <div class="has-text-centered has-text-weight-light is-family-primary pb-5">
+                            <p class="is-size-2">Login Form</p>
+                            <p class="is-size-4">For Examiners</p>
+                        </div>
 
-            <div class="form-floating">
-                <input v-model="email" type="email" class="form-control" placeholder="name@example.com" />
-                <label>Email address</label>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input is-medium" type="email" placeholder="Email" v-model="email" />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input is-medium" type="password" placeholder="Password" v-model="password" />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <button class="button is-link is-medium is-fullwidth">Login</button>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
 
-            <div class="form-floating">
-                <input v-model="password" type="password" class="form-control" placeholder="Password" />
-                <label>Password</label>
-            </div>
+        <b-loading :is-full-page="true" v-model="loading" :can-cancel="true"></b-loading>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
-        </form>
-    </main>
+    </div>
 </template>
 
+
+
 <script>
-import axios from "axios";
-import Swal from "sweetalert2";
+import axios from "axios"
+import Swal from "sweetalert2"
 
 export default {
     name: "Login",
@@ -28,6 +52,7 @@ export default {
         return {
             email: "",
             password: "",
+            loading: false
         };
     },
     methods: {
@@ -35,18 +60,46 @@ export default {
             if (!this.email && !this.password) {
                 Swal.fire("Input Error", "Field cannot be empty", "error");
             } else {
-                try{
+                
+                this.loading = true;
+                
+                try {
                     await axios.post("login", {
                         email: this.email,
                         password: this.password,
                     });
+                    
+                    this.loading = false;
+
                     await this.$router.push("/");
-                }catch(e){
-                    Swal.fire("Unauthorized", "Is your email/password correct?", "error")
+                } catch (e) {
+                    
+                    this.loading = false;
+                    this.warning()
+                    // Swal.fire("Unauthorized", "Is your email/password correct?", "error");
                 }
             }
+        },
+        warning() {
+            this.$buefy.snackbar.open({
+                message: 'Unauthorized: Is your email/password correct?',
+                type: 'is-warning',
+                position: 'is-top',
+                actionText: 'Retry',
+                indefinite: true
+            })
         },
     },
 };
 </script>
 
+<style scoped>
+.centerall {
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+</style>
